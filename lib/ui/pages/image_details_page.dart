@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lanars_task/domain/blocs/image_details_bloc/image_details_bloc.dart';
+import 'package:lanars_task/ui/widgets/image_error_widget.dart';
 
 class ImageDetailsPage extends StatelessWidget {
-  const ImageDetailsPage({super.key});
+  const ImageDetailsPage({super.key, required this.imageId});
+  final String imageId;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,10 @@ class ImageDetailsPage extends StatelessWidget {
             );
           }
           if (state is ErrorState) {
-            return Container();
+            return ImageErrorWidget(
+              onPressed: () => bloc.add(LoadDetailsEvent(imageId: imageId)),
+              error: state.error,
+            );
           }
           return const Center(child: CircularProgressIndicator());
         },

@@ -10,8 +10,12 @@ part 'image_details_state.dart';
 class ImageDetailsBloc extends Bloc<ImageDetailsEvent, ImageDetailsState> {
   ImageDetailsBloc(this.imageId) : super(EmptyState()) {
     on<LoadDetailsEvent>((event, emit) async{
-      final imageDetails = await _apiClient.getImageDetails(imageId);
-      emit(DataState(imageDetails: imageDetails));
+      try {
+        final imageDetails = await _apiClient.getImageDetails(imageId);
+        emit(DataState(imageDetails: imageDetails));
+      } catch (e) {
+        emit(ErrorState(e));
+      }
     });
     add(LoadDetailsEvent(imageId: imageId));
   }

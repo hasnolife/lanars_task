@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lanars_task/domain/blocs/Images_list_bloc/images_list_bloc.dart';
 import 'package:lanars_task/ui/navigation/main_navigation.dart';
+import 'package:lanars_task/ui/widgets/image_error_widget.dart';
 
 class ImagesListPage extends StatelessWidget {
   const ImagesListPage({super.key});
@@ -42,7 +43,8 @@ class ImagesListPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(15),
                     child: TextField(
-                      onChanged: (value) => bloc.add(LoadListEvent(query: value)),
+                      onChanged: (value) =>
+                          bloc.add(LoadListEvent(query: value.trim())),
                       // controller: _searchController,
                       decoration: InputDecoration(
                         filled: true,
@@ -56,9 +58,12 @@ class ImagesListPage extends StatelessWidget {
               );
             }
             if (state is ErrorState) {
-              return Container();
+              return ImageErrorWidget(
+                onPressed: () => bloc.add(LoadListEvent()),
+                error: state.error,
+              );
             }
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),
