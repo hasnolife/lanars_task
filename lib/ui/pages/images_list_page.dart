@@ -12,6 +12,7 @@ class ImagesListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.read<ImagesListBloc>();
     return Scaffold(
+      appBar: AppBar(),
       body: RefreshIndicator(
         onRefresh: () async {
           final completer = Completer();
@@ -22,19 +23,36 @@ class ImagesListPage extends StatelessWidget {
           bloc: bloc,
           builder: (BuildContext context, state) {
             if (state is DataState) {
-              return ListView.builder(
-                itemCount: state.imagesList.length,
-                itemBuilder: (context, index) {
-                  final imageData = state.imagesList[index];
-                  return ListTile(
-                      title: Image.network(imageData.imageUrl),
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          MainNavigationRouteNames.details,
-                          arguments: imageData.id,
-                        );
-                      });
-                },
+              return Stack(
+                children: [
+                  ListView.builder(
+                    itemCount: state.imagesList.length,
+                    itemBuilder: (context, index) {
+                      final imageData = state.imagesList[index];
+                      return ListTile(
+                          title: Image.network(imageData.imageUrl),
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              MainNavigationRouteNames.details,
+                              arguments: imageData.id,
+                            );
+                          });
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: TextField(
+                      onChanged: (value) => bloc.add(LoadListEvent(query: value)),
+                      // controller: _searchController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white.withAlpha(235),
+                        border: const OutlineInputBorder(),
+                        labelText: 'Search',
+                      ),
+                    ),
+                  ),
+                ],
               );
             }
             if (state is ErrorState) {
