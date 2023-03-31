@@ -5,6 +5,7 @@ abstract class ImagesListEvent {}
 
 class LoadListEvent extends ImagesListEvent {
   final Completer? completer;
+  final String? query;
 
-  LoadListEvent({this.completer});
+  LoadListEvent({this.query, this.completer});
 }
