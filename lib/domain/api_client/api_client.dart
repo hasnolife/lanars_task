@@ -13,14 +13,12 @@ class ApiClient {
 
     final data = response.data as List<dynamic>;
     final imagesList = data.map((imageData) {
-      final description = imageData["description"];
       final smallUrl = imageData["urls"]["small"];
-      final fullUrl = imageData["urls"]["full"];
+      final id = imageData["id"];
 
       return ImageModel(
-        description: description,
-        smallImage: smallUrl,
-        fullImage: fullUrl,
+        imageUrl: smallUrl,
+        id: id,
       );
     }).toList();
 
