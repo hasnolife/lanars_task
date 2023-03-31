@@ -12,9 +12,9 @@ class ScreenFactory {
       child: const ImagesListPage(),
     );
   }
-  Widget makeImageDetailsPage() {
+  Widget makeImageDetailsPage(String imageId) {
     return BlocProvider<ImageDetailsBloc>(
-      create: (_) => ImageDetailsBloc(),
+      create: (_) => ImageDetailsBloc(imageId),
       child: const ImageDetailsPage(),
     );
   }

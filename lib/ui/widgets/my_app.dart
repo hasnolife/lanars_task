@@ -6,14 +6,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mainNavigation = MainNavigation();
     return MaterialApp(
       title: 'Unsplash Client',
       theme: ThemeData(
 
         primarySwatch: Colors.blue,
       ),
-      routes: MainNavigation.routes,
+      routes: mainNavigation.routes,
       initialRoute: MainNavigationRouteNames.mainScreen,
+      onGenerateRoute: mainNavigation.onGenerateRoute,
     );
   }
 }
