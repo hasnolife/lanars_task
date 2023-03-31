@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lanars_task/ui/pages/images_list_page.dart';
+import 'package:lanars_task/ui/navigation/main_navigation.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -7,12 +7,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Unsplash Client',
       theme: ThemeData(
 
         primarySwatch: Colors.blue,
       ),
-      home: const ImagesListPage(),
+      routes: MainNavigation.routes,
+      initialRoute: MainNavigationRouteNames.mainScreen,
     );
   }
 }
