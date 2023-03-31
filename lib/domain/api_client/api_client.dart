@@ -8,6 +8,8 @@ class ApiClient {
 
   // ApiClient(this._dio);
 
+
+
   Future<List<ImageModel>> getImagesList() async {
     final response = await _dio.get(Configuration.imageListUrl,
         queryParameters: {'client_id': Configuration.accessKey});
@@ -45,6 +47,25 @@ class ApiClient {
       likes: likes,
       description: description,
       userName: userName,);
+  }
+
+  Future<List<ImageModel>> getSearchList(String searchQuery) async {
+    final response = await _dio.get(Configuration.searchListUrl,
+        queryParameters: {'client_id': Configuration.accessKey, 'query': searchQuery});
+
+    final data = response.data as Map<String, dynamic>;
+    final result = data["results"] as List<dynamic>;
+    final imagesList = result.map((imageData) {
+      final smallUrl = imageData["urls"]["small"];
+      final id = imageData["id"];
+
+      return ImageModel(
+        imageUrl: smallUrl,
+        id: id,
+      );
+    }).toList();
+
+    return imagesList;
   }
 
 }
