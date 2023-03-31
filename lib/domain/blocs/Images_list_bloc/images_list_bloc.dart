@@ -16,7 +16,12 @@ class ImagesListBloc extends Bloc<ImagesListEvent, ImagesListState> {
         if (state is! DataState) {
           emit(LoadingState());
         }
-        final imagesList = await _apiClient.getImagesList();
+        List<ImageModel> imagesList = [];
+        if (event.query != null && event.query!.isNotEmpty) {
+          imagesList = await _apiClient.getSearchList(event.query!);
+        } else {
+          imagesList = await _apiClient.getImagesList();
+        }
         emit(DataState(imagesList: imagesList));
       } catch (e) {
         emit(ErrorState(e));
