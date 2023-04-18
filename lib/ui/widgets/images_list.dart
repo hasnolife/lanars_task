@@ -27,7 +27,7 @@ class _ImagesListState extends State<ImagesList> {
           final bloc = context.read<ImagesListBloc>();
 
           bloc.add(LoadListEvent(page: bloc.page));
-          scrollController.initialScrollOffset;
+
         }
       }
     });
