@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lanars_task/ui/navigation/main_navigation.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class UnsplashApp extends StatelessWidget {
+  const UnsplashApp({super.key});
 
   @override
   Widget build(BuildContext context) {
