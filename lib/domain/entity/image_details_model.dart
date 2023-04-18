@@ -16,4 +16,16 @@ class ImageDetailsModel extends ImageModel {
     required this.description,
     required this.userName,
   });
+
+  factory ImageDetailsModel.fromJson(Map<String, dynamic> json) {
+    return ImageDetailsModel(
+      id: json["id"],
+      imageUrl: json["urls"]["small"],
+      width: json["width"],
+      height: json["height"],
+      likes: json["likes"],
+      description: json["description"],
+      userName: json["user"]["name"],
+    );
+  }
 }

@@ -10,8 +10,8 @@ class ImagesApiClient extends ApiClient {
     final isSearchMode = searchQuery != null && searchQuery.trim().isNotEmpty;
     final url = isSearchMode
         ? Configuration.unsplashUrl +
-            Configuration.searchHeader +
-            Configuration.imageListHeader
+        Configuration.searchHeader +
+        Configuration.imageListHeader
         : Configuration.unsplashUrl + Configuration.imageListHeader;
 
     var queryParameters = {
@@ -25,15 +25,10 @@ class ImagesApiClient extends ApiClient {
     final response = await getData(url, queryParameters);
 
     final data = (isSearchMode ? response.data["results"] : response.data)
-        as List<dynamic>;
-    final imagesList = data.map((imageData) {
-      final smallUrl = imageData["urls"]["small"];
-      final id = imageData["id"];
+    as List<dynamic>;
 
-      return ImageModel(
-        imageUrl: smallUrl,
-        id: id,
-      );
+    final imagesList = data.map((imageData) {
+      return ImageModel.fromJson(imageData);
     }).toList();
 
     return imagesList;

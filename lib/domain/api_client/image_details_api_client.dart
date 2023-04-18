@@ -10,22 +10,8 @@ class ImageDetailsApiClient extends ApiClient {
         '${Configuration.unsplashUrl}${Configuration.imageListHeader}/$imageId';
     final queryParameters = {'client_id': Configuration.accessKey};
     final response = await getData(url, queryParameters);
-    final data = response.data as Map<String, dynamic>;
-    final imageUrl = data["urls"]["small"];
-    final width = data["width"];
-    final height = data["height"];
-    final likes = data["likes"];
-    final description = data["description"];
-    final userName = data["user"]["name"];
+    final json = response.data as Map<String, dynamic>;
 
-    return ImageDetailsModel(
-      id: imageId,
-      imageUrl: imageUrl,
-      width: width,
-      height: height,
-      likes: likes,
-      description: description,
-      userName: userName,
-    );
+    return ImageDetailsModel.fromJson(json);
   }
 }
