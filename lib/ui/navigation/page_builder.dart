@@ -6,7 +6,7 @@ import 'package:lanars_task/service_locator.dart';
 import 'package:lanars_task/ui/pages/image_details_page.dart';
 import 'package:lanars_task/ui/pages/images_list_page.dart';
 
-class ScreenFactory {
+class PageBuilder {
   Widget makeImageListPage() {
     return BlocProvider<ImagesListBloc>(
       create: (_) => ImagesListBloc(apiClient: sl()),

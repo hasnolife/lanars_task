@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lanars_task/domain/factories/screen_factory.dart';
+import 'package:lanars_task/ui/navigation/page_builder.dart';
 
 abstract class MainNavigationRouteNames {
   static const mainScreen = '/';
@@ -7,7 +7,7 @@ abstract class MainNavigationRouteNames {
 }
 
 class MainNavigation {
-  static final _screenFactory = ScreenFactory();
+  static final _screenFactory = PageBuilder();
   final routes = {
     MainNavigationRouteNames.mainScreen: (_) => _screenFactory.makeImageListPage(),
     // MainNavigationRouteNames.details: (_) => _screenFactory.makeImageDetailsPage(),
