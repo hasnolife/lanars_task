@@ -77,11 +77,11 @@ class _ImagesListState extends State<ImagesList> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 40),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: TextField(
                     onChanged: (value) =>
                         bloc.add(LoadListEvent(page: 1, query: value.trim())),
-                    // controller: _searchController,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white.withAlpha(150),

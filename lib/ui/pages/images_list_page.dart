@@ -7,7 +7,7 @@ class ImagesListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: ImagesList(),
+      body: SafeArea(child: ImagesList()),
     );
   }
 }

@@ -13,30 +13,32 @@ class ImageDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.read<ImageDetailsBloc>();
     return Scaffold(
-      body: BlocBuilder(
-        bloc: bloc,
-        builder: (BuildContext context, state) {
-          if (state is DataState) {
-            return Padding(
-              padding: const EdgeInsets.all(10),
-              child: Dismissible(
-                direction: DismissDirection.down,
-                onDismissed: (_) {
-                  Navigator.of(context).pop();
-                },
-                key: const Key('key'),
-                child: ImageDetailsCard(imageDetails: state.imageDetails),
-              ),
-            );
-          }
-          if (state is ErrorState) {
-            return ImageErrorWidget(
-              onPressed: () => bloc.add(LoadDetailsEvent(imageId: imageId)),
-              error: state.error,
-            );
-          }
-          return const Center(child: CircularProgressIndicator());
-        },
+      body: SafeArea(
+        child: BlocBuilder(
+          bloc: bloc,
+          builder: (BuildContext context, state) {
+            if (state is DataState) {
+              return Padding(
+                padding: const EdgeInsets.all(10),
+                child: Dismissible(
+                  direction: DismissDirection.down,
+                  onDismissed: (_) {
+                    Navigator.of(context).pop();
+                  },
+                  key: const Key('key'),
+                  child: ImageDetailsCard(imageDetails: state.imageDetails),
+                ),
+              );
+            }
+            if (state is ErrorState) {
+              return ImageErrorWidget(
+                onPressed: () => bloc.add(LoadDetailsEvent(imageId: imageId)),
+                error: state.error,
+              );
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
+        ),
       ),
     );
   }
