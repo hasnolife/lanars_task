@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lanars_task/domain/api_client/images_api_client.dart';
 import 'package:lanars_task/domain/entity/image_model.dart';
+import 'package:lanars_task/services/api_client/images_api_client.dart';
 
 part 'images_list_event.dart';
 

@@ -1,6 +1,6 @@
 import 'package:lanars_task/configuration/configuration.dart';
-import 'package:lanars_task/domain/api_client/api_client.dart';
 import 'package:lanars_task/domain/entity/image_details_model.dart';
+import 'package:lanars_task/services/api_client/api_client.dart';
 
 class ImageDetailsApiClient extends ApiClient {
   ImageDetailsApiClient(super.dio);

@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lanars_task/domain/api_client/image_details_api_client.dart';
 import 'package:lanars_task/domain/entity/image_details_model.dart';
+import 'package:lanars_task/services/api_client/image_details_api_client.dart';
 
 part 'image_details_event.dart';
 part 'image_details_state.dart';
