@@ -16,10 +16,10 @@ class ImagesList extends StatefulWidget {
   State<ImagesList> createState() => _ImagesListState();
 }
 
-final scrollController = ScrollController();
-List<ImageModel> images = [];
-
 class _ImagesListState extends State<ImagesList> {
+  final scrollController = ScrollController();
+  List<ImageModel> images = [];
+
   void setScrollController() {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
