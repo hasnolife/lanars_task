@@ -4,13 +4,13 @@ import 'package:lanars_task/domain/blocs/Images_list_bloc/images_list_bloc.dart'
 import 'package:lanars_task/domain/blocs/image_details_bloc/image_details_bloc.dart';
 import 'package:lanars_task/service_locator.dart';
 import 'package:lanars_task/ui/pages/image_details_page.dart';
-import 'package:lanars_task/ui/pages/images_list_page.dart';
+import 'package:lanars_task/ui/pages/image_listing_page.dart';
 
 class PageBuilder {
   Widget makeImageListPage() {
     return BlocProvider<ImagesListBloc>(
       create: (_) => ImagesListBloc(apiClient: sl()),
-      child: const ImagesListPage(),
+      child: const ImageListingPage(),
     );
   }
 
