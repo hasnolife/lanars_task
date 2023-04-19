@@ -1,6 +1,6 @@
 import 'package:lanars_task/configuration/configuration.dart';
-import 'package:lanars_task/domain/api_client/api_client.dart';
 import 'package:lanars_task/domain/entity/image_model.dart';
+import 'package:lanars_task/services/api_client/api_client.dart';
 
 class ImagesApiClient extends ApiClient {
   ImagesApiClient(super.dio);
@@ -26,14 +26,9 @@ class ImagesApiClient extends ApiClient {
 
     final data = (isSearchMode ? response.data["results"] : response.data)
         as List<dynamic>;
-    final imagesList = data.map((imageData) {
-      final smallUrl = imageData["urls"]["small"];
-      final id = imageData["id"];
 
-      return ImageModel(
-        imageUrl: smallUrl,
-        id: id,
-      );
+    final imagesList = data.map((imageData) {
+      return ImageModel.fromJson(imageData);
     }).toList();
 
     return imagesList;

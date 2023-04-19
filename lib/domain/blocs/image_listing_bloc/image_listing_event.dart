@@ -1,9 +1,9 @@
-part of 'images_list_bloc.dart';
+part of 'image_listing_bloc.dart';
 
 @immutable
-abstract class ImagesListEvent {}
+abstract class ImageListingEvent {}
 
-class LoadListEvent extends ImagesListEvent {
+class LoadListEvent extends ImageListingEvent {
   final Completer? completer;
   final String? query;
   final int page;

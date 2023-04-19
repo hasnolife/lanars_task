@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lanars_task/domain/blocs/Images_list_bloc/images_list_bloc.dart';
+import 'package:lanars_task/domain/blocs/image_listing_bloc/image_listing_bloc.dart';
 import 'package:lanars_task/domain/entity/image_model.dart';
 import 'package:lanars_task/ui/navigation/main_navigation.dart';
 import 'package:lanars_task/ui/widgets/image_error_widget.dart';
@@ -16,18 +16,18 @@ class ImagesList extends StatefulWidget {
   State<ImagesList> createState() => _ImagesListState();
 }
 
-final scrollController = ScrollController();
-List<ImageModel> images = [];
-
 class _ImagesListState extends State<ImagesList> {
+  final scrollController = ScrollController();
+  List<ImageModel> images = [];
+
   void setScrollController() {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
-          final bloc = context.read<ImagesListBloc>();
+          final bloc = context.read<ImageListingBloc>();
 
           bloc.add(LoadListEvent(page: bloc.page));
-          scrollController.initialScrollOffset;
+
         }
       }
     });
@@ -35,7 +35,7 @@ class _ImagesListState extends State<ImagesList> {
 
   Future<void> refresh() async {
     images.clear();
-    context.read<ImagesListBloc>().add(LoadListEvent(page: 1));
+    context.read<ImageListingBloc>().add(LoadListEvent(page: 1));
   }
 
   @override
@@ -46,7 +46,7 @@ class _ImagesListState extends State<ImagesList> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<ImagesListBloc>();
+    final bloc = context.read<ImageListingBloc>();
     setScrollController();
     return RefreshIndicator(
       onRefresh: () async {
@@ -77,11 +77,11 @@ class _ImagesListState extends State<ImagesList> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 40),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: TextField(
                     onChanged: (value) =>
                         bloc.add(LoadListEvent(page: 1, query: value.trim())),
-                    // controller: _searchController,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white.withAlpha(150),

@@ -2,18 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lanars_task/domain/api_client/images_api_client.dart';
 import 'package:lanars_task/domain/entity/image_model.dart';
+import 'package:lanars_task/services/api_client/images_api_client.dart';
 
-part 'images_list_event.dart';
+part 'image_listing_event.dart';
 
-part 'images_list_state.dart';
+part 'image_listing_state.dart';
 
-class ImagesListBloc extends Bloc<ImagesListEvent, ImagesListState> {
+class ImageListingBloc extends Bloc<ImageListingEvent, ImageListingState> {
   final ImagesApiClient apiClient;
   int page = 1;
 
-  ImagesListBloc({required this.apiClient}) : super(EmptyState()) {
+  ImageListingBloc({required this.apiClient}) : super(EmptyState()) {
     on<LoadListEvent>((event, emit) async {
       try {
         if (state is! DataState) {

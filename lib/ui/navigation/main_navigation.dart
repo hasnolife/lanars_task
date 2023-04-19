@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lanars_task/domain/factories/screen_factory.dart';
+import 'package:get_it/get_it.dart';
+import 'package:lanars_task/ui/navigation/page_builder.dart';
 
 abstract class MainNavigationRouteNames {
   static const mainScreen = '/';
@@ -7,10 +8,9 @@ abstract class MainNavigationRouteNames {
 }
 
 class MainNavigation {
-  static final _screenFactory = ScreenFactory();
+  static final _pageBuilder = GetIt.I<PageBuilder>();
   final routes = {
-    MainNavigationRouteNames.mainScreen: (_) => _screenFactory.makeImageListPage(),
-    // MainNavigationRouteNames.details: (_) => _screenFactory.makeImageDetailsPage(),
+    MainNavigationRouteNames.mainScreen: (_) => _pageBuilder.makeImageListPage(),
   };
   Route<Object> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -18,7 +18,7 @@ class MainNavigation {
         final arguments = settings.arguments;
         final imageId = arguments is String ? arguments : '';
         return MaterialPageRoute(
-          builder: (_) => _screenFactory.makeImageDetailsPage(imageId),
+          builder: (_) => _pageBuilder.makeImageDetailsPage(imageId),
         );
       default:
         const widget = Text('Navigation Error');
