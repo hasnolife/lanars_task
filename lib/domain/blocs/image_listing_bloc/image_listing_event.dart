@@ -1,4 +1,4 @@
-part of 'Image_listing_bloc.dart';
+part of 'image_listing_bloc.dart';
 
 @immutable
 abstract class ImageListingEvent {}

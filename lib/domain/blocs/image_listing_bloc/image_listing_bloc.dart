@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lanars_task/domain/entity/image_model.dart';
 import 'package:lanars_task/services/api_client/images_api_client.dart';
 
-part 'Image_listing_event.dart';
+part 'image_listing_event.dart';
 
-part 'Image_listing_state.dart';
+part 'image_listing_state.dart';
 
 class ImageListingBloc extends Bloc<ImageListingEvent, ImageListingState> {
   final ImagesApiClient apiClient;

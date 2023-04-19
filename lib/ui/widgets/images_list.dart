@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lanars_task/domain/blocs/Image_listing_bloc/Image_listing_bloc.dart';
+import 'package:lanars_task/domain/blocs/image_listing_bloc/image_listing_bloc.dart';
 import 'package:lanars_task/domain/entity/image_model.dart';
 import 'package:lanars_task/ui/navigation/main_navigation.dart';
 import 'package:lanars_task/ui/widgets/image_error_widget.dart';
