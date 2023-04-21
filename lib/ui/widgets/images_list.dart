@@ -19,16 +19,16 @@ class ImagesList extends StatefulWidget {
 class _ImagesListState extends State<ImagesList> {
   final scrollController = ScrollController();
   List<ImageModel> images = [];
+  // bool isLoading = false;
 
   void setScrollController() {
+    final bloc = context.watch<ImageListingBloc>();
     scrollController.addListener(() {
-      if (scrollController.position.atEdge) {
-        if (scrollController.position.pixels != 0) {
-          final bloc = context.read<ImageListingBloc>();
-
-          bloc.add(LoadListEvent(page: bloc.page));
-
-        }
+      if (!bloc.isLoading &&
+          scrollController.position.atEdge &&
+          scrollController.position.pixels != 0) {
+        bloc.isLoading = true;
+        bloc.add(LoadListEvent(page: bloc.page));
       }
     });
   }
@@ -46,7 +46,7 @@ class _ImagesListState extends State<ImagesList> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<ImageListingBloc>();
+    final bloc = context.watch<ImageListingBloc>();
     setScrollController();
     return RefreshIndicator(
       onRefresh: () async {
@@ -62,11 +62,20 @@ class _ImagesListState extends State<ImagesList> {
             return Stack(
               children: [
                 ListView.builder(
+
                   controller: scrollController,
-                  itemCount: images.length,
+                  itemCount: images.length + 1,
                   itemBuilder: (context, index) {
+                    if (index == images.length) {
+                      if (bloc.isLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    }
                     final imageData = state.imagesList[index];
                     return ListTile(
+                      key: ValueKey(index),
                         title: Image.network(imageData.imageUrl),
                         onTap: () {
                           Navigator.of(context).pushNamed(

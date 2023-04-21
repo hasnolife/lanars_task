@@ -12,25 +12,28 @@ part 'image_listing_state.dart';
 class ImageListingBloc extends Bloc<ImageListingEvent, ImageListingState> {
   final ImagesApiClient apiClient;
   int page = 1;
-
+  bool isLoading = false;
+  List<ImageModel> _imagesList = [];
   ImageListingBloc({required this.apiClient}) : super(EmptyState()) {
     on<LoadListEvent>((event, emit) async {
+
       try {
         if (state is! DataState) {
           emit(LoadingState());
         }
-        List<ImageModel> imagesList = [];
+
         page = event.page;
         if (event.query != null && event.query!.isNotEmpty) {
-          imagesList = await apiClient.getImagesList(page, event.query!);
+          _imagesList = await apiClient.getImagesList(page, event.query!);
         } else {
-          imagesList.addAll(await apiClient.getImagesList(page));
+          _imagesList.addAll(await apiClient.getImagesList(page));
           page++;
         }
-        emit(DataState(imagesList: imagesList));
+        emit(DataState(imagesList: _imagesList));
       } catch (e) {
         emit(ErrorState(e));
       } finally {
+        isLoading = false;
         event.completer?.complete();
       }
     });
