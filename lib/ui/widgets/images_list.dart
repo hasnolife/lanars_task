@@ -19,6 +19,7 @@ class ImagesList extends StatefulWidget {
 class _ImagesListState extends State<ImagesList> {
   final scrollController = ScrollController();
   List<ImageModel> images = [];
+  String searchQuery = '';
 
   void setScrollController() {
     final bloc = context.watch<ImageListingBloc>();
@@ -27,7 +28,7 @@ class _ImagesListState extends State<ImagesList> {
           scrollController.position.atEdge &&
           scrollController.position.pixels != 0) {
         bloc.isLoading = true;
-        bloc.add(LoadListEvent(page: bloc.page));
+        bloc.add(LoadListEvent(page: bloc.page, query: searchQuery));
       }
     });
   }
@@ -62,8 +63,8 @@ class _ImagesListState extends State<ImagesList> {
             onRefresh: () async {
               final completer = Completer();
               images.clear();
-              bloc.add(LoadListEvent(page: 1, completer: completer));
-              await completer.future;
+              bloc.add(LoadListEvent(page: 1, completer: completer, query: searchQuery));
+              return completer.future;
             },
             child: Stack(
               children: [
@@ -94,8 +95,12 @@ class _ImagesListState extends State<ImagesList> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: TextField(
-                    onChanged: (value) =>
-                        bloc.add(LoadListEvent(page: 1, query: value.trim())),
+                    onChanged: (value) {
+                      searchQuery = value.trim();
+                      images.clear();
+                      bloc.add(LoadListEvent(page: 1, query: searchQuery));
+
+                    },
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white.withAlpha(150),
