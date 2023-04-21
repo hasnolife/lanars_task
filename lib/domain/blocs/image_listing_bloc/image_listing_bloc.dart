@@ -24,9 +24,9 @@ class ImageListingBloc extends Bloc<ImageListingEvent, ImageListingState> {
 
         page = event.page;
         if (event.query != null && event.query!.isNotEmpty) {
-          _imagesList = await apiClient.getImagesList(page, event.query!);
+          _imagesList = await apiClient.getImagesList(page, event.query);
         } else {
-          _imagesList.addAll(await apiClient.getImagesList(page));
+          _imagesList = await apiClient.getImagesList(page);
           page++;
         }
         emit(DataState(imagesList: _imagesList));

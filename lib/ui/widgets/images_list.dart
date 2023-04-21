@@ -19,7 +19,6 @@ class ImagesList extends StatefulWidget {
 class _ImagesListState extends State<ImagesList> {
   final scrollController = ScrollController();
   List<ImageModel> images = [];
-  // bool isLoading = false;
 
   void setScrollController() {
     final bloc = context.watch<ImageListingBloc>();
@@ -38,6 +37,12 @@ class _ImagesListState extends State<ImagesList> {
     context.read<ImageListingBloc>().add(LoadListEvent(page: 1));
   }
 
+@override
+  void didChangeDependencies() {
+  setScrollController();
+    super.didChangeDependencies();
+  }
+
   @override
   void dispose() {
     scrollController.dispose();
@@ -46,23 +51,23 @@ class _ImagesListState extends State<ImagesList> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.watch<ImageListingBloc>();
-    setScrollController();
-    return RefreshIndicator(
-      onRefresh: () async {
-        final completer = Completer();
-        bloc.add(LoadListEvent(page: 1, completer: completer));
-        return completer.future;
-      },
-      child: BlocBuilder(
-        bloc: bloc,
-        builder: (BuildContext context, state) {
-          if (state is DataState) {
-            images = state.imagesList;
-            return Stack(
+    final bloc = context.read<ImageListingBloc>();
+
+    return BlocBuilder(
+      bloc: bloc,
+      builder: (BuildContext context, state) {
+        if (state is DataState) {
+          images.addAll(state.imagesList);
+          return RefreshIndicator(
+            onRefresh: () async {
+              final completer = Completer();
+              images.clear();
+              bloc.add(LoadListEvent(page: 1, completer: completer));
+              await completer.future;
+            },
+            child: Stack(
               children: [
                 ListView.builder(
-
                   controller: scrollController,
                   itemCount: images.length + 1,
                   itemBuilder: (context, index) {
@@ -73,9 +78,9 @@ class _ImagesListState extends State<ImagesList> {
                         return const SizedBox.shrink();
                       }
                     }
-                    final imageData = state.imagesList[index];
+                    final imageData = images[index];
                     return ListTile(
-                      key: ValueKey(index),
+                        key: ValueKey(index),
                         title: Image.network(imageData.imageUrl),
                         onTap: () {
                           Navigator.of(context).pushNamed(
@@ -100,17 +105,17 @@ class _ImagesListState extends State<ImagesList> {
                   ),
                 ),
               ],
-            );
-          }
-          if (state is ErrorState) {
-            return ImageErrorWidget(
-              onPressed: () => bloc.add(LoadListEvent(page: 1)),
-              error: state.error,
-            );
-          }
-          return const Center(child: CircularProgressIndicator());
-        },
-      ),
+            ),
+          );
+        }
+        if (state is ErrorState) {
+          return ImageErrorWidget(
+            onPressed: () => bloc.add(LoadListEvent(page: 1)),
+            error: state.error,
+          );
+        }
+        return const Center(child: CircularProgressIndicator());
+      },
     );
   }
 }
