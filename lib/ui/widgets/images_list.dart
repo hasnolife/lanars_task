@@ -27,10 +27,9 @@ class _ImagesListState extends State<ImagesList> {
       if (!bloc.isLoading &&
           scrollController.position.pixels ==
               scrollController.position.maxScrollExtent) {
-
-        setState(() {
-          bloc.isLoading = true;
-        });
+        // setState(() {
+        //   bloc.isLoading = true;
+        // });
         bloc.add(LoadListEvent(page: bloc.page, query: searchQuery));
       }
     });
@@ -50,20 +49,21 @@ class _ImagesListState extends State<ImagesList> {
   @override
   Widget build(BuildContext context) {
     setScrollController();
-    final bloc = context.watch<ImageListingBloc>();
+    final bloc = context.read<ImageListingBloc>();
+    final isLoading = context.select((ImageListingBloc bloc) => bloc.isLoading);
 
     return BlocBuilder(
       bloc: bloc,
       builder: (BuildContext context, state) {
         if (state is DataState) {
-          images.addAll(state.imagesList);
+          images = List.from(state.imagesList);
           return RefreshIndicator(
             onRefresh: () async {
               final completer = Completer();
-
               bloc.add(LoadListEvent(
                   page: 1, completer: completer, query: searchQuery));
-              images.clear();
+
+              images = List.from(state.imagesList);
               return completer.future;
             },
             child: Stack(
@@ -85,32 +85,31 @@ class _ImagesListState extends State<ImagesList> {
                     );
                   },
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: TextField(
-                        onChanged: (value) {
-                          searchQuery = value.trim();
-                          images.clear();
-                          bloc.add(LoadListEvent(page: 1, query: searchQuery));
-                        },
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white.withAlpha(150),
-                          border: const OutlineInputBorder(),
-                          labelText: 'Search',
-                        ),
-                      ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: TextField(
+                    onChanged: (value) {
+                      searchQuery = value.trim();
+                    },
+                    onSubmitted: (value) {
+                      searchQuery = value.trim();
+                      images.clear();
+                      bloc.add(LoadListEvent(page: 1, query: searchQuery));
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white.withAlpha(150),
+                      border: const OutlineInputBorder(),
+                      labelText: 'Search',
                     ),
-                    if (bloc.isLoading)
-                      const Positioned(
-                          child: CircularProgressIndicator()),
-                  ],
+                  ),
                 ),
-
+                if (isLoading)
+                  const Align(
+                    alignment: Alignment.bottomCenter,
+                    child: CircularProgressIndicator(),
+                  ),
               ],
             ),
           );
