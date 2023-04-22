@@ -27,9 +27,7 @@ class _ImagesListState extends State<ImagesList> {
       if (!bloc.isLoading &&
           scrollController.position.pixels ==
               scrollController.position.maxScrollExtent) {
-        // setState(() {
-        //   bloc.isLoading = true;
-        // });
+        setState(() {});
         bloc.add(LoadListEvent(page: bloc.page, query: searchQuery));
       }
     });
@@ -64,6 +62,7 @@ class _ImagesListState extends State<ImagesList> {
                   page: 1, completer: completer, query: searchQuery));
 
               images = List.from(state.imagesList);
+
               return completer.future;
             },
             child: Stack(
