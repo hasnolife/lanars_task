@@ -4,4 +4,7 @@ class Configuration {
   static const unsplashUrl = 'https://api.unsplash.com';
   static const imageListHeader = '/photos';
   static const searchHeader = '/search';
+
+  static String get searchImagesUrl => '$unsplashUrl$searchHeader$imageListHeader';
+  static String get imagesUrl => '$unsplashUrl$imageListHeader';
 }

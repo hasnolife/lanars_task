@@ -8,11 +8,8 @@ class ImagesApiClient extends ApiClient {
   Future<List<ImageModel>> getImagesList(int page,
       [String? searchQuery]) async {
     final isSearchMode = searchQuery != null && searchQuery.trim().isNotEmpty;
-    final url = isSearchMode
-        ? Configuration.unsplashUrl +
-            Configuration.searchHeader +
-            Configuration.imageListHeader
-        : Configuration.unsplashUrl + Configuration.imageListHeader;
+    final url =
+        isSearchMode ? Configuration.searchImagesUrl : Configuration.imagesUrl;
 
     var queryParameters = {
       'client_id': Configuration.accessKey,
