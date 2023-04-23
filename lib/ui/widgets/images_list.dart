@@ -19,23 +19,40 @@ class ImagesList extends StatefulWidget {
 class _ImagesListState extends State<ImagesList> {
   final scrollController = ScrollController();
   List<ImageModel> images = [];
+  late ImageListingBloc bloc;
+  String searchQuery = '';
 
-  void setScrollController() {
-    scrollController.addListener(() {
-      if (scrollController.position.atEdge) {
-        if (scrollController.position.pixels != 0) {
-          final bloc = context.read<ImageListingBloc>();
-
-          bloc.add(LoadListEvent(page: bloc.page));
-
-        }
-      }
-    });
+  void _onScroll() {
+    if (!bloc.isLoading &&
+        scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent) {
+      setState(() {});
+      _loadImages(page: bloc.page, query: searchQuery);
+    }
   }
 
-  Future<void> refresh() async {
-    images.clear();
-    context.read<ImageListingBloc>().add(LoadListEvent(page: 1));
+  void _searchImage(String value) {
+    _loadImages(page: 1, query: searchQuery);
+  }
+
+  void _loadImages({required int page, Completer? completer, String query = ''}) {
+    _updateSearchQuery(query);
+    bloc.add(LoadListEvent(
+      page: page,
+      completer: completer,
+      query: searchQuery,
+    ));
+  }
+
+  void _updateSearchQuery(String value) {
+    searchQuery = value.trim();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = context.read<ImageListingBloc>();
+    scrollController.addListener(_onScroll);
   }
 
   @override
@@ -46,61 +63,80 @@ class _ImagesListState extends State<ImagesList> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<ImageListingBloc>();
-    setScrollController();
-    return RefreshIndicator(
-      onRefresh: () async {
-        final completer = Completer();
-        bloc.add(LoadListEvent(page: 1, completer: completer));
-        return completer.future;
-      },
-      child: BlocBuilder(
-        bloc: bloc,
-        builder: (BuildContext context, state) {
-          if (state is DataState) {
-            images = state.imagesList;
-            return Stack(
+    final isLoading = context.select((ImageListingBloc bloc) => bloc.isLoading);
+
+    return BlocBuilder(
+      bloc: bloc,
+      builder: (BuildContext context, state) {
+        if (state is DataState) {
+          images = state.imagesList;
+          return RefreshIndicator(
+            onRefresh: () async {
+              final completer = Completer();
+              _loadImages(page: 1, completer: completer,query: searchQuery);
+
+              return completer.future;
+            },
+            child: Stack(
               children: [
-                ListView.builder(
-                  controller: scrollController,
-                  itemCount: images.length,
-                  itemBuilder: (context, index) {
-                    final imageData = state.imagesList[index];
-                    return ListTile(
-                        title: Image.network(imageData.imageUrl),
-                        onTap: () {
-                          Navigator.of(context).pushNamed(
-                            MainNavigationRouteNames.details,
-                            arguments: imageData.id,
-                          );
-                        });
-                  },
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: TextField(
-                    onChanged: (value) =>
-                        bloc.add(LoadListEvent(page: 1, query: value.trim())),
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white.withAlpha(150),
-                      border: const OutlineInputBorder(),
-                      labelText: 'Search',
-                    ),
+                buildImageListView(),
+                buildSearchImage(),
+                if (isLoading)
+                  const Align(
+                    alignment: Alignment.bottomCenter,
+                    child: CircularProgressIndicator(),
                   ),
-                ),
               ],
+            ),
+          );
+        }
+        if (state is ErrorState) {
+          return ImageErrorWidget(
+            onPressed: () => _loadImages(page: 1),
+            error: state.error,
+          );
+        }
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  ListView buildImageListView() {
+    return ListView.builder(
+      controller: scrollController,
+      itemCount: images.length,
+      itemBuilder: (context, index) {
+        final imageData = images[index];
+        return ListTile(
+          key: ValueKey(index),
+          title: Image.network(imageData.imageUrl),
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              MainNavigationRouteNames.details,
+              arguments: imageData.id,
             );
-          }
-          if (state is ErrorState) {
-            return ImageErrorWidget(
-              onPressed: () => bloc.add(LoadListEvent(page: 1)),
-              error: state.error,
-            );
-          }
-          return const Center(child: CircularProgressIndicator());
+          },
+        );
+      },
+    );
+  }
+
+  Widget buildSearchImage() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: TextField(
+        onChanged: (value) {
+          _updateSearchQuery(value);
         },
+        onSubmitted: (value) {
+          _searchImage(value);
+        },
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white.withAlpha(150),
+          border: const OutlineInputBorder(),
+          labelText: 'Search',
+        ),
       ),
     );
   }
