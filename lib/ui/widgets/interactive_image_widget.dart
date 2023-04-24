@@ -12,19 +12,21 @@ class InteractiveImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return GestureDetector(
-      onVerticalDragUpdate: (details) {
-        if (details.primaryDelta! > 20) {
-          Navigator.of(context).pop();
-        }
-      },
-      child: PhotoView(
-        backgroundDecoration: const BoxDecoration(
-          color: Colors.transparent,
-        ),
-        imageProvider: NetworkImage(
-          imageDetails.imageUrl,
+    return Hero(
+      tag: imageDetails.id,
+      child: GestureDetector(
+        onVerticalDragUpdate: (details) {
+          if (details.primaryDelta! > 20) {
+            Navigator.of(context).pop();
+          }
+        },
+        child: PhotoView(
+          backgroundDecoration: const BoxDecoration(
+            color: Colors.transparent,
+          ),
+          imageProvider: NetworkImage(
+            imageDetails.imageUrl,
+          ),
         ),
       ),
     );
