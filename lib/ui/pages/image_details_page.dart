@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lanars_task/domain/blocs/image_details_bloc/image_details_bloc.dart';
 import 'package:lanars_task/ui/widgets/image_error_widget.dart';
-import 'package:lanars_task/ui/widgets/image_details_card.dart';
+import 'package:lanars_task/ui/widgets/image_details_widget.dart';
 
 class ImageDetailsPage extends StatelessWidget {
   const ImageDetailsPage({super.key, required this.imageId});
@@ -20,14 +20,8 @@ class ImageDetailsPage extends StatelessWidget {
             if (state is DataState) {
               return Padding(
                 padding: const EdgeInsets.all(10),
-                child: Dismissible(
-                  direction: DismissDirection.down,
-                  onDismissed: (_) {
-                    Navigator.of(context).pop();
-                  },
-                  key: const Key('key'),
-                  child: ImageDetailsCard(imageDetails: state.imageDetails),
-                ),
+                child: ImageDetailsWidget(imageDetails: state.imageDetails),
+
               );
             }
             if (state is ErrorState) {

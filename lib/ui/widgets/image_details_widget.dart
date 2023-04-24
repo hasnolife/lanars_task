@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:lanars_task/domain/entity/image_details_model.dart';
+import 'package:lanars_task/ui/widgets/interactive_image_widget.dart';
 
-class ImageDetailsCard extends StatelessWidget {
-  const ImageDetailsCard({
+class ImageDetailsWidget extends StatelessWidget {
+  const ImageDetailsWidget({
     super.key,
     required this.imageDetails,
   });
@@ -14,17 +14,14 @@ class ImageDetailsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        InteractiveViewer(
-          child: Image.network(
-            imageDetails.imageUrl,
-            fit: BoxFit.contain,
-          ),
+        Expanded(
+          child: InteractiveImageWidget(imageDetails: imageDetails),
         ),
         Text('Image author : ${imageDetails.userName}'),
-        Text(
-            'Image size :  ${imageDetails.width} x ${imageDetails.width}'),
+        Text('Image size :  ${imageDetails.width} x ${imageDetails.width}'),
         Text('Image has ${imageDetails.likes} likes'),
       ],
     );
   }
 }
+
