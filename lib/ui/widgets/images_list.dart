@@ -35,7 +35,8 @@ class _ImagesListState extends State<ImagesList> {
     _loadImages(page: 1, query: searchQuery);
   }
 
-  void _loadImages({required int page, Completer? completer, String query = ''}) {
+  void _loadImages(
+      {required int page, Completer? completer, String query = ''}) {
     _updateSearchQuery(query);
     bloc.add(LoadListEvent(
       page: page,
@@ -73,7 +74,7 @@ class _ImagesListState extends State<ImagesList> {
           return RefreshIndicator(
             onRefresh: () async {
               final completer = Completer();
-              _loadImages(page: 1, completer: completer,query: searchQuery);
+              _loadImages(page: 1, completer: completer, query: searchQuery);
 
               return completer.future;
             },
@@ -109,7 +110,10 @@ class _ImagesListState extends State<ImagesList> {
         final imageData = images[index];
         return ListTile(
           key: ValueKey(index),
-          title: Image.network(imageData.imageUrl),
+          title: Hero(
+            tag: imageData.id,
+            child: Image.network(imageData.imageUrl),
+          ),
           onTap: () {
             Navigator.of(context).pushNamed(
               MainNavigationRouteNames.details,
