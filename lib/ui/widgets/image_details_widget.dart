@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:lanars_task/domain/entity/image_details_model.dart';
-import 'package:lanars_task/ui/widgets/interactive_image_widget.dart';
 
-class ImageDetailsWidget extends StatelessWidget {
-  const ImageDetailsWidget({
+
+class ImageDetailsFormWidget extends StatelessWidget {
+  const ImageDetailsFormWidget({
     super.key,
-    required this.imageDetails,
+    required this.image,
+    this.description,
   });
 
-  final ImageDetailsModel imageDetails;
+  final Widget image;
+  final List<Widget>? description;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        Expanded(
-          child: InteractiveImageWidget(imageDetails: imageDetails),
+        Center(
+          child: image,
         ),
-        Text('Image author : ${imageDetails.userName}'),
-        Text('Image size :  ${imageDetails.width} x ${imageDetails.width}'),
-        Text('Image has ${imageDetails.likes} likes'),
+        Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children:
+          description ?? [const CircularProgressIndicator()],),
+        )
       ],
     );
   }
 }
-

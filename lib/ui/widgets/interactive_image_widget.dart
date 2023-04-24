@@ -1,32 +1,29 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:lanars_task/domain/entity/image_details_model.dart';
 import 'package:photo_view/photo_view.dart';
 
 class InteractiveImageWidget extends StatelessWidget {
   const InteractiveImageWidget({
-    required this.imageDetails,
+    required this.imageUrl,
     super.key,
   });
 
-  final ImageDetailsModel imageDetails;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: imageDetails.id,
-      child: GestureDetector(
-        onVerticalDragUpdate: (details) {
-          if (details.primaryDelta! > 20) {
-            Navigator.of(context).pop();
-          }
-        },
-        child: PhotoView(
-          backgroundDecoration: const BoxDecoration(
-            color: Colors.transparent,
-          ),
-          imageProvider: NetworkImage(
-            imageDetails.imageUrl,
-          ),
+    return GestureDetector(
+      onVerticalDragUpdate: (details) {
+        if (details.primaryDelta! > 20) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: PhotoView(
+        backgroundDecoration: const BoxDecoration(
+          color: Colors.transparent,
+        ),
+        imageProvider: CachedNetworkImageProvider(
+          imageUrl,
         ),
       ),
     );

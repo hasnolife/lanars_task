@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lanars_task/domain/blocs/image_listing_bloc/image_listing_bloc.dart';
@@ -112,12 +113,17 @@ class _ImagesListState extends State<ImagesList> {
           key: ValueKey(index),
           title: Hero(
             tag: imageData.id,
-            child: Image.network(imageData.imageUrl),
+            child: Image(
+              image: CachedNetworkImageProvider(
+                imageData.imageUrl,
+                // placeholder: (context, url) => CircularProgressIndicator(),
+              ),
+            ),
           ),
           onTap: () {
             Navigator.of(context).pushNamed(
               MainNavigationRouteNames.details,
-              arguments: imageData.id,
+              arguments: imageData,
             );
           },
         );
