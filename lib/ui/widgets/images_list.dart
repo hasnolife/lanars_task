@@ -7,6 +7,7 @@ import 'package:lanars_task/domain/blocs/image_listing_bloc/image_listing_bloc.d
 import 'package:lanars_task/domain/entity/image_model.dart';
 import 'package:lanars_task/ui/navigation/main_navigation.dart';
 import 'package:lanars_task/ui/widgets/image_error_widget.dart';
+import 'package:lanars_task/ui/widgets/search_widget.dart';
 
 class ImagesList extends StatefulWidget {
   const ImagesList({
@@ -134,20 +135,15 @@ class _ImagesListState extends State<ImagesList> {
   Widget buildSearchImage() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: TextField(
+      child: SearchWidget(
         onChanged: (value) {
           _updateSearchQuery(value);
         },
         onSubmitted: (value) {
           _searchImage(value);
         },
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white.withAlpha(150),
-          border: const OutlineInputBorder(),
-          labelText: 'Search',
-        ),
       ),
     );
   }
 }
+
