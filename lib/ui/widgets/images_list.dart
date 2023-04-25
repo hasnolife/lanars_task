@@ -116,8 +116,8 @@ class _ImagesListState extends State<ImagesList> {
             child: Image(
               image: CachedNetworkImageProvider(
                 imageData.imageUrl,
-                // placeholder: (context, url) => CircularProgressIndicator(),
               ),
+              fit: BoxFit.fitWidth,
             ),
           ),
           onTap: () {
