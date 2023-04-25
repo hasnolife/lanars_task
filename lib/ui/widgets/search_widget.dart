@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-///
+/// Обычная анимированная строка поиска.
+/// Сначала видна иконка поиска, при нажатии выезжает поле для ввода
+/// Еужно передать функции в параметры [onChanged] [onSubmitted]
 class SearchWidget extends StatefulWidget {
   const SearchWidget({
     Key? key,
