@@ -23,8 +23,18 @@ class _SearchWidgetState extends State<SearchWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (_searchMode) {
-      return TextField(
+    return AnimatedCrossFade(
+      firstChild: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: _SearchIconButton(
+          icon: const Icon(
+            Icons.search,
+            size: 35,
+          ),
+          onPressed: _searchModeToggle,
+        ),
+      ),
+      secondChild: TextField(
         onChanged: widget.onChanged,
         onSubmitted: widget.onSubmitted,
         decoration: InputDecoration(
@@ -37,15 +47,10 @@ class _SearchWidgetState extends State<SearchWidget> {
             onPressed: _searchModeToggle,
           ),
         ),
-
-      );
-    }
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: _SearchIconButton(
-        icon: const Icon(Icons.search,size: 35,),
-        onPressed: _searchModeToggle,
       ),
+      crossFadeState:
+          _searchMode ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+      duration: const Duration(milliseconds: 200),
     );
   }
 }
