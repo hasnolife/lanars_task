@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///
 class SearchWidget extends StatefulWidget {
   const SearchWidget({
     Key? key,
@@ -7,7 +8,7 @@ class SearchWidget extends StatefulWidget {
     required this.onSubmitted,
   }) : super(key: key);
   final Function(String)? onChanged;
-  final void Function(String)? onSubmitted;
+  final Function(String)? onSubmitted;
 
   @override
   State<SearchWidget> createState() => _SearchWidgetState();
@@ -42,7 +43,7 @@ class _SearchWidgetState extends State<SearchWidget> {
           fillColor: Colors.white.withAlpha(150),
           border: const OutlineInputBorder(),
           labelText: 'Search',
-          suffix: _SearchIconButton(
+          suffixIcon: _SearchIconButton(
             icon: const Icon(Icons.cancel),
             onPressed: _searchModeToggle,
           ),
