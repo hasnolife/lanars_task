@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 /// Обычная анимированная строка поиска.
 /// Сначала видна иконка поиска, при нажатии выезжает поле для ввода
 /// Еужно передать функции в параметры [onChanged] [onSubmitted]
-class SearchWidget extends StatefulWidget {
-  const SearchWidget({
+class AnimatedSearchWidget extends StatefulWidget {
+  const AnimatedSearchWidget({
     Key? key,
     required this.onChanged,
     required this.onSubmitted,
@@ -13,10 +13,10 @@ class SearchWidget extends StatefulWidget {
   final Function(String)? onSubmitted;
 
   @override
-  State<SearchWidget> createState() => _SearchWidgetState();
+  State<AnimatedSearchWidget> createState() => _AnimatedSearchWidgetState();
 }
 
-class _SearchWidgetState extends State<SearchWidget> {
+class _AnimatedSearchWidgetState extends State<AnimatedSearchWidget> {
   var _searchMode = false;
 
   void _searchModeToggle() {
