@@ -136,12 +136,8 @@ class _ImagesListState extends State<ImagesList> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: SearchWidget(
-        onChanged: (value) {
-          _updateSearchQuery(value);
-        },
-        onSubmitted: (value) {
-          _searchImage(value);
-        },
+        onChanged: _updateSearchQuery,
+        onSubmitted: _searchImage,
       ),
     );
   }
