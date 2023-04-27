@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lanars_task/domain/blocs/image_listing_bloc/image_listing_bloc.dart';
 import 'package:lanars_task/domain/entity/image_model.dart';
 import 'package:lanars_task/ui/navigation/main_navigation.dart';
 import 'package:lanars_task/ui/widgets/image_error_widget.dart';
+import 'package:lanars_task/ui/widgets/search_widget.dart';
 
 class ImagesList extends StatefulWidget {
   const ImagesList({
@@ -35,7 +37,8 @@ class _ImagesListState extends State<ImagesList> {
     _loadImages(page: 1, query: searchQuery);
   }
 
-  void _loadImages({required int page, Completer? completer, String query = ''}) {
+  void _loadImages(
+      {required int page, Completer? completer, String query = ''}) {
     _updateSearchQuery(query);
     bloc.add(LoadListEvent(
       page: page,
@@ -73,7 +76,7 @@ class _ImagesListState extends State<ImagesList> {
           return RefreshIndicator(
             onRefresh: () async {
               final completer = Completer();
-              _loadImages(page: 1, completer: completer,query: searchQuery);
+              _loadImages(page: 1, completer: completer, query: searchQuery);
 
               return completer.future;
             },
@@ -109,11 +112,19 @@ class _ImagesListState extends State<ImagesList> {
         final imageData = images[index];
         return ListTile(
           key: ValueKey(index),
-          title: Image.network(imageData.imageUrl),
+          title: Hero(
+            tag: imageData.id,
+            child: Image(
+              image: CachedNetworkImageProvider(
+                imageData.imageUrl,
+              ),
+              fit: BoxFit.fitWidth,
+            ),
+          ),
           onTap: () {
             Navigator.of(context).pushNamed(
               MainNavigationRouteNames.details,
-              arguments: imageData.id,
+              arguments: imageData,
             );
           },
         );
@@ -124,20 +135,11 @@ class _ImagesListState extends State<ImagesList> {
   Widget buildSearchImage() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: TextField(
-        onChanged: (value) {
-          _updateSearchQuery(value);
-        },
-        onSubmitted: (value) {
-          _searchImage(value);
-        },
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white.withAlpha(150),
-          border: const OutlineInputBorder(),
-          labelText: 'Search',
-        ),
+      child: SearchWidget(
+        onChanged: _updateSearchQuery,
+        onSubmitted: _searchImage,
       ),
     );
   }
 }
+
