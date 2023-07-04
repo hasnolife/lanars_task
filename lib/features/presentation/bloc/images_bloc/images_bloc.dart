@@ -12,7 +12,7 @@ class ImagesBloc extends Bloc<ImagesEvent, ImagesState> {
   final GetAllImages getAllImages;
   int _page = 1;
 
-  ImagesBloc(this.getAllImages) : super(EmptyState()) {
+  ImagesBloc({required this.getAllImages}) : super(EmptyState()) {
     on<LoadImagesEvent>((event, emit) async {
       var oldImages = <ImageEntity>[];
       if (state is LoadingState) return;

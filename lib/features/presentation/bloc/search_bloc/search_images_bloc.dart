@@ -12,7 +12,7 @@ class SearchImagesBloc extends Bloc<SearchImagesEvent, SearchImagesState> {
   final SearchImages searchImages;
   int _page = 1;
 
-  SearchImagesBloc(this.searchImages) : super(SearchImagesEmptyState()) {
+  SearchImagesBloc({required this.searchImages}) : super(SearchImagesEmptyState()) {
     on<LoadSearchImagesEvent>((event, emit) async {
       var oldImages = <ImageEntity>[];
       if (state is SearchImagesLoadingState) return;
