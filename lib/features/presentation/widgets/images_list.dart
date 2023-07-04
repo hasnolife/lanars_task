@@ -3,28 +3,18 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lanars_task/core/utils/extensions/pagination_scroll_mixin.dart';
 import 'package:lanars_task/features/domain/entities/image_entity.dart';
 import 'package:lanars_task/features/presentation/bloc/images_bloc/images_bloc.dart';
 import 'package:lanars_task/ui/widgets/image_error_widget.dart';
 
-class ImagesList extends StatelessWidget {
-  final _scrollController = ScrollController();
-
+class ImagesList extends StatelessWidget with PaginationScrollMixin {
   ImagesList({super.key});
-
-  void _setScrollController(BuildContext context) {
-    _scrollController.addListener(() {
-      if (_scrollController.position.atEdge) {
-        if (_scrollController.position.pixels != 0) {
-          context.read<ImagesBloc>().add(LoadImagesEvent());
-        }
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    _setScrollController(context);
+    setScrollController(context,
+        function: () => context.read<ImagesBloc>().add(LoadImagesEvent()));
 
     return BlocBuilder<ImagesBloc, ImagesState>(
       builder: (BuildContext context, state) {
@@ -48,11 +38,11 @@ class ImagesList extends StatelessWidget {
             context.read<ImagesBloc>().add(ResetImagesEvent());
           },
           child: ListView.builder(
-            controller: _scrollController,
+            controller: scrollController,
             itemCount: images.length + (isLoading ? 1 : 0),
             itemBuilder: (context, index) {
               if (index < images.length) {
-              final imageData = images[index];
+                final imageData = images[index];
                 return ListTile(
                   key: ValueKey(index),
                   title: Hero(
@@ -67,9 +57,7 @@ class ImagesList extends StatelessWidget {
                   onTap: () {},
                 );
               }
-              Timer(const Duration(milliseconds: 30), () {
-                _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-              });
+              jumpDownWhenLoading();
               return _buildLoading();
             },
           ),
