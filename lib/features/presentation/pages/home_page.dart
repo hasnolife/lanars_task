@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: SafeArea(child: ImagesList()),
+      body: ImagesList(),
     );
   }
 }

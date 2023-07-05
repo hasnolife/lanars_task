@@ -17,7 +17,7 @@ class SearchImagesBloc extends Bloc<SearchImagesEvent, SearchImagesState> {
       var oldImages = <ImageEntity>[];
       if (state is SearchImagesLoadingState) return;
       final currentState = state;
-      if (currentState is SearchImagesDataState) {
+      if (currentState is SearchImagesDataState && _page > 1) {
         oldImages = currentState.images;
       }
       emit(SearchImagesLoadingState(
