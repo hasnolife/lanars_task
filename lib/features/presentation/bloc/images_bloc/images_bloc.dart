@@ -17,7 +17,8 @@ class ImagesBloc extends Bloc<ImagesEvent, ImagesState> {
       var oldImages = <ImageEntity>[];
       if (state is LoadingState) return;
       final currentState = state;
-      if (currentState is DataState) {
+      // when page is 1 we don't need to add images to old list
+      if (currentState is DataState && _page > 1) {
         oldImages = currentState.images;
       }
       emit(LoadingState(oldImages: oldImages, isFirstFetch: _page == 1));
