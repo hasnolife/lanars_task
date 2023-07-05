@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lanars_task/core/utils/extensions/pagination_scroll_mixin.dart';
 import 'package:lanars_task/features/domain/entities/image_entity.dart';
 import 'package:lanars_task/features/presentation/bloc/search_bloc/search_images_bloc.dart';
+import 'package:lanars_task/features/presentation/navigation/routes.dart';
 import 'package:lanars_task/ui/widgets/image_error_widget.dart';
 
 class CustomSearchDelegate extends SearchDelegate with PaginationScrollMixin {
@@ -97,7 +99,9 @@ class CustomSearchDelegate extends SearchDelegate with PaginationScrollMixin {
                     fit: BoxFit.fitWidth,
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  context.push(RouteNames.detailsPage, extra: imageData);
+                },
               );
             }
             jumpDownWhenLoading();
