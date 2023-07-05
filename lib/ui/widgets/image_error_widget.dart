@@ -11,22 +11,24 @@ class ImageErrorWidget extends StatelessWidget {
     final style = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Something went wrong',
-            style: style.bodyMedium,
-          ),
-          Text(
-            error.toString(),
-            style: style.labelSmall,
-          ),
-          TextButton(
-            onPressed: onPressed,
-            child: const Text('Try again'),
-          )
-        ],
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Something went wrong',
+              style: style.bodyMedium,
+            ),
+            Text(
+              error.toString(),
+              style: style.labelSmall,
+            ),
+            TextButton(
+              onPressed: onPressed,
+              child: const Text('Try again'),
+            )
+          ],
+        ),
       ),
     );
   }
