@@ -22,10 +22,16 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     required Dio dio,
   }) : _dio = dio;
 
-  Future<List<ImageDetailsModel>> _getImages(String url, Map<String, dynamic> queryParameters) async {
+
+  @override
+  Future<List<ImageDetailsModel>> getAllImages(int page) async {
+    final queryParameters = {
+      'client_id': Configuration.accessKey,
+      'page': page,
+    };
     try {
-      final response = await _dio.get(url, queryParameters: queryParameters);
-      final data = response.data as List;
+      final response = await _dio.get(Configuration.imagesUrl, queryParameters: queryParameters);
+      var data = response.data as List;
       return data
           .map((imageDetailData) => ImageDetailsModel.fromJson(imageDetailData))
           .toList();
@@ -35,21 +41,20 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   }
 
   @override
-  Future<List<ImageDetailsModel>> getAllImages(int page) async {
-    final queryParameters = {
-      'client_id': Configuration.accessKey,
-      'page': page,
-    };
-    return _getImages(Configuration.imagesUrl, queryParameters);
-  }
-
-  @override
   Future<List<ImageDetailsModel>> searchImages(String query, int page) async {
     final queryParameters = {
       'client_id': Configuration.accessKey,
       'page': page,
       'query': query,
     };
-    return _getImages(Configuration.searchImagesUrl, queryParameters);
+    try {
+      final response = await _dio.get(Configuration.searchImagesUrl, queryParameters: queryParameters);
+      var data = response.data['results'] as List;
+      return data
+          .map((imageDetailData) => ImageDetailsModel.fromJson(imageDetailData))
+          .toList();
+    } catch (e) {
+      throw ServerException();
+    }
   }
 }
