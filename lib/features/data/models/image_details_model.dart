@@ -1,14 +1,13 @@
 import 'package:lanars_task/features/domain/entities/image_details_entity.dart';
 
 class ImageDetailsModel extends ImageDetailsEntity {
-  const ImageDetailsModel(
-      {required super.id,
-      required super.imageUrl,
-      required super.width,
-      required super.height,
-      required super.likes,
-      required super.description,
-      required super.userName});
+  const ImageDetailsModel({required super.id,
+    required super.imageUrl,
+    required super.width,
+    required super.height,
+    required super.likes,
+    required super.description,
+    required super.userName});
 
   factory ImageDetailsModel.fromJson(Map<String, dynamic> json) =>
       ImageDetailsModel(
@@ -20,4 +19,5 @@ class ImageDetailsModel extends ImageDetailsEntity {
         description: json["description"],
         userName: json["user"]["name"],
       );
+
 }

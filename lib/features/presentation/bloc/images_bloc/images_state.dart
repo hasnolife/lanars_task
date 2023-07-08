@@ -33,7 +33,7 @@ class LoadingState extends ImagesState {
   final bool isFirstFetch;
 
   @override
-  List<Object> get props => [oldImages, isFirstFetch];
+  List<Object> get props => [oldImages];
 
   LoadingState({required this.oldImages, this.isFirstFetch = false});
 

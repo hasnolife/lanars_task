@@ -8,7 +8,7 @@ import 'package:lanars_task/features/presentation/bloc/search_bloc/search_images
 import 'package:lanars_task/features/presentation/navigation/routes.dart';
 import 'package:lanars_task/features/presentation/widgets/image_error_widget.dart';
 
-class CustomSearchDelegate extends SearchDelegate with PaginationScrollMixin {
+class CustomSearchDelegate extends SearchDelegate with PaginationScrollMixin<SearchImagesBloc> {
   CustomSearchDelegate() : super(searchFieldLabel: 'Searching for images...');
   String _prevQuery = '';
   final _suggestions = <String>[
@@ -60,7 +60,7 @@ class CustomSearchDelegate extends SearchDelegate with PaginationScrollMixin {
       _resetImages(context);
     }
 
-    setScrollController(context, function: () => _searchImages(context));
+    setScrollController(context, LoadSearchImagesEvent(searchQuery: query));
     _searchImages(context);
     return BlocBuilder<SearchImagesBloc, SearchImagesState>(
       builder: (BuildContext context, state) {

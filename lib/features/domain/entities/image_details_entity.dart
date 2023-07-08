@@ -18,5 +18,6 @@ class ImageDetailsEntity extends ImageEntity {
   });
 
   @override
-  List<Object?> get props => [...super.props, width, height, likes, description, userName];
+  List<Object?> get props =>
+      super.props + [width, height, likes, description, userName];
 }

@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lanars_task/core/utils/extensions/pagination_scroll_mixin.dart';
-import 'package:lanars_task/features/domain/entities/image_entity.dart';
+import 'package:lanars_task/features/domain/entities/image_details_entity.dart';
 import 'package:lanars_task/features/presentation/bloc/images_bloc/images_bloc.dart';
 import 'package:lanars_task/features/presentation/navigation/routes.dart';
 import 'package:lanars_task/features/presentation/widgets/image_error_widget.dart';
 
-class ImagesList extends StatelessWidget with PaginationScrollMixin {
+class ImagesList extends StatelessWidget
+    with PaginationScrollMixin<ImagesBloc> {
   ImagesList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    setScrollController(context,
-        function: () => context.read<ImagesBloc>().add(LoadImagesEvent()));
+    setScrollController(context, LoadImagesEvent());
 
     return BlocBuilder<ImagesBloc, ImagesState>(
       builder: (BuildContext context, state) {
         bool isLoading = false;
-        var images = <ImageEntity>[];
+        var images = <ImageDetailsEntity>[];
         if (state is LoadingState && state.isFirstFetch) {
           return _buildLoading();
         } else if (state is LoadingState) {
