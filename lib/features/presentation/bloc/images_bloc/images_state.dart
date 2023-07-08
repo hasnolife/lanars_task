@@ -18,7 +18,7 @@ class ErrorState extends ImagesState {
 }
 
 class DataState extends ImagesState {
-  final List<ImageEntity> images;
+  final List<ImageDetailsEntity> images;
 
   @override
   List<Object> get props => [images];
@@ -29,7 +29,7 @@ class DataState extends ImagesState {
 }
 
 class LoadingState extends ImagesState {
-  final List<ImageEntity> oldImages;
+  final List<ImageDetailsEntity> oldImages;
   final bool isFirstFetch;
 
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:lanars_task/core/errors/failure.dart';
-import 'package:lanars_task/features/domain/entities/image_entity.dart';
+import 'package:lanars_task/features/domain/entities/image_details_entity.dart';
 import 'package:lanars_task/features/domain/use_cases/get_all_image.dart';
 
 part 'images_event.dart';
@@ -14,7 +14,7 @@ class ImagesBloc extends Bloc<ImagesEvent, ImagesState> {
 
   ImagesBloc({required this.getAllImages}) : super(EmptyState()) {
     on<LoadImagesEvent>((event, emit) async {
-      var oldImages = <ImageEntity>[];
+      var oldImages = <ImageDetailsEntity>[];
       if (state is LoadingState) return;
       final currentState = state;
       // when page is 1 we don't need to add images to old list

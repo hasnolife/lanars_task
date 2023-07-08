@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lanars_task/domain/entity/image_model.dart';
-import 'package:lanars_task/features/domain/entities/image_entity.dart';
+import 'package:lanars_task/features/domain/entities/image_details_entity.dart';
 import 'package:lanars_task/features/presentation/navigation/routes.dart';
 import 'package:lanars_task/features/presentation/pages/home_page.dart';
 import 'package:lanars_task/features/presentation/pages/image_details_page.dart';
@@ -17,7 +16,7 @@ class AppRouter {
     GoRoute(
         path: RouteNames.detailsPage,
         builder: (BuildContext context, GoRouterState state) {
-          return ImageDetailsPage(imageModel: state.extra as ImageEntity);
+          return ImageDetailsPage(imageDetails: state.extra as ImageDetailsEntity);
         }),
   ]);
 }

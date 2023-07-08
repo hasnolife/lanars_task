@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:lanars_task/core/errors/failure.dart';
-import 'package:lanars_task/features/domain/entities/image_entity.dart';
+import 'package:lanars_task/features/domain/entities/image_details_entity.dart';
 import 'package:lanars_task/features/domain/use_cases/search_image.dart';
 
 part 'search_images_event.dart';
@@ -14,7 +14,7 @@ class SearchImagesBloc extends Bloc<SearchImagesEvent, SearchImagesState> {
 
   SearchImagesBloc({required this.searchImages}) : super(SearchImagesEmptyState()) {
     on<LoadSearchImagesEvent>((event, emit) async {
-      var oldImages = <ImageEntity>[];
+      var oldImages = <ImageDetailsEntity>[];
       if (state is SearchImagesLoadingState) return;
       final currentState = state;
       if (currentState is SearchImagesDataState && _page > 1) {

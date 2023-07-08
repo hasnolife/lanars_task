@@ -6,7 +6,7 @@ import 'package:lanars_task/core/utils/extensions/pagination_scroll_mixin.dart';
 import 'package:lanars_task/features/domain/entities/image_entity.dart';
 import 'package:lanars_task/features/presentation/bloc/search_bloc/search_images_bloc.dart';
 import 'package:lanars_task/features/presentation/navigation/routes.dart';
-import 'package:lanars_task/ui/widgets/image_error_widget.dart';
+import 'package:lanars_task/features/presentation/widgets/image_error_widget.dart';
 
 class CustomSearchDelegate extends SearchDelegate with PaginationScrollMixin {
   CustomSearchDelegate() : super(searchFieldLabel: 'Searching for images...');
@@ -25,7 +25,6 @@ class CustomSearchDelegate extends SearchDelegate with PaginationScrollMixin {
       IconButton(
         onPressed: () {
           query = '';
-
           showSuggestions(context);
           context.read<SearchImagesBloc>().add(ResetSearchImagesEvent());
         },

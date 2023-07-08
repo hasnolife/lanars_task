@@ -1,7 +1,7 @@
-import 'package:lanars_task/features/domain/entities/image_entity.dart';
+import 'package:lanars_task/features/domain/entities/image_details_entity.dart';
 
 abstract class ImageRepository {
-  Future<List<ImageEntity>> getAllImages(int page);
+  Future<List<ImageDetailsEntity>> getAllImages(int page);
 
-  Future<List<ImageEntity>> searchImage(String searchQuery, int page);
+  Future<List<ImageDetailsEntity>> searchImage(String searchQuery, int page);
 }

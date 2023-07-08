@@ -10,7 +10,7 @@ class SearchImagesEmptyState extends SearchImagesState {
 }
 
 class SearchImagesDataState extends SearchImagesState {
-  final List<ImageEntity> images;
+  final List<ImageDetailsEntity> images;
 
   @override
   List<Object> get props => [images];
@@ -28,7 +28,7 @@ class SearchImagesErrorState extends SearchImagesState {
   List<Object?> get props => [error];
 }
 class SearchImagesLoadingState extends SearchImagesState {
-  final List<ImageEntity> oldImages;
+  final List<ImageDetailsEntity> oldImages;
   final bool isFirstFetch;
 
   @override

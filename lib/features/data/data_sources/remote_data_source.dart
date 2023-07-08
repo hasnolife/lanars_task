@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:lanars_task/configuration/configuration.dart';
+import 'package:lanars_task/core/platforms/configuration.dart';
 import 'package:lanars_task/core/errors/exceptions.dart';
 import 'package:lanars_task/features/data/models/image_details_model.dart';
 

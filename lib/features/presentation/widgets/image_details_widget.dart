@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class ImageDetailsFormWidget extends StatelessWidget {
   const ImageDetailsFormWidget({
     super.key,
@@ -22,8 +21,8 @@ class ImageDetailsFormWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.end,
-            children:
-          description ?? [const CircularProgressIndicator()],),
+            children: description ?? [const CircularProgressIndicator()],
+          ),
         )
       ],
     );
