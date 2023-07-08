@@ -31,7 +31,7 @@ class SearchImagesBloc extends Bloc<SearchImagesEvent, SearchImagesState>
           ..addAll(newImages);
         _page++;
         emit(SearchImagesDataState(images: images));
-      } on Failure catch (e) {
+      } catch (e) {
         emit(SearchImagesErrorState(mapFailureToMessage(e)));
       }
     });

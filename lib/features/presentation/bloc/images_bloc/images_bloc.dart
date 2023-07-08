@@ -29,7 +29,7 @@ class ImagesBloc extends Bloc<ImagesEvent, ImagesState> with FailureParseMixin {
         final images = (state as LoadingState).oldImages..addAll(newImages);
         _page++;
         emit(DataState(images: images));
-      } on Failure catch (e) {
+      } catch (e) {
         emit(ErrorState(mapFailureToMessage(e)));
       }
     });
